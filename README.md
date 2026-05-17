@@ -1,4 +1,9 @@
-# OP
+# OP 
+
+WORK IN PROGRESS
+
+
+
 OP - Project without co-pilot to show the world and myself that I can do it without AI. 
 Leaderboard / login / WebGL hosting for a game.
 Active development.
