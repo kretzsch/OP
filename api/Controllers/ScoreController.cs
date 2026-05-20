@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using api.Data;
 using api.Dtos;
+using api.Models;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,7 +25,7 @@ namespace api.Controllers
         public IActionResult GetScores()
         {
             var scores = _context.Scores.ToList();
-            var response = scores.Adapt<List<Dtos.Score.ScoreDto>>();
+            var response = scores.Adapt<List<Dtos.Score.ScoreDto>>();//Mapster for automapping
             return Ok(response);
         }
 
@@ -36,8 +37,30 @@ namespace api.Controllers
             {
                 return NotFound();
             }
-            var response = score.Adapt<Dtos.Score.ScoreDto>();
+            var response = score.Adapt<Dtos.Score.ScoreDto>(); //Maspster for automapping
             return Ok(response);
+        }
+
+
+        /* 
+        for now you cant log in, so we just pass the playerid for now. 
+        but when we have login it needs to be 
+
+        psuedocode:
+
+        [authorize]
+        
+        playeridclaim = user.findfirst (claimtype playerid)
+
+        */
+        [HttpPost]
+        public IActionResult CreateScore([FromBody] Dtos.Score.CreateScoreRequestDto createScoreRequestDto)
+        {
+            var score = createScoreRequestDto.Adapt<Models.Score>();
+            _context.Scores.Add(score);
+            _context.SaveChanges();
+            var response = score.Adapt<Dtos.Score.ScoreDto>();
+            return CreatedAtAction(nameof(GetById), new { id = score.Id }, response);
         }
     }
 }
