@@ -62,5 +62,19 @@ namespace api.Controllers
             var response = score.Adapt<Dtos.Score.ScoreDto>();
             return CreatedAtAction(nameof(GetById), new { id = score.Id }, response);
         }
+
+        [HttpPut("{id}")] 
+        public IActionResult UpdateScore([FromRoute] int id, [FromBody] Dtos.Score.UpdateScoreRequestDto updateScoreRequestDto)
+        {
+            var score = _context.Scores.Find(id);
+            if (score == null)
+            {
+                return NotFound();
+            }
+            score.Value = updateScoreRequestDto.Value;
+            _context.SaveChanges();
+            var response = score.Adapt<Dtos.Score.ScoreDto>();
+            return Ok(response);
+        }
     }
 }
