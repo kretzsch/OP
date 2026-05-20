@@ -12,9 +12,9 @@ namespace api.Data
         {
         }
 
-      
-       public DbSet<Models.Player> Players { get; set; }
-       public DbSet<Models.Score> Scores { get; set; }
+
+        public DbSet<Models.Player> Players { get; set; }
+        public DbSet<Models.Score> Scores { get; set; }
 
     }
 }

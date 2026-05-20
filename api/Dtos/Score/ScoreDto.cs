@@ -7,9 +7,9 @@ namespace api.Dtos.Score
 {
     public class ScoreDto
     {
-          public int Id { get; set; }
+        public int Id { get; set; }
         public int PlayerId { get; set; }
         public int Value { get; set; }
-      
+
     }
 }
