@@ -76,5 +76,18 @@ namespace api.Controllers
             var response = score.Adapt<Dtos.Score.ScoreDto>();
             return Ok(response);
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteScore([FromRoute] int id)
+        {
+            var score = _context.Scores.Find(id);
+            if (score == null)
+            {
+                return NotFound();
+            }
+            _context.Scores.Remove(score);
+            _context.SaveChanges();
+            return NoContent();
+        }
     }
 }
