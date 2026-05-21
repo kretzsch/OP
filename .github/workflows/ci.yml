@@ -1,0 +1,27 @@
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6.0.2
+
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v5.2.0
+        with:
+          dotnet-version: 10.0.300
+
+      - name: Restore dependencies
+        run: dotnet restore OP2.sln
+
+      - name: Build solution
+        run: dotnet build OP2.sln --configuration Release --no-restore
+
+  
