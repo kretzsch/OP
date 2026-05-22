@@ -7,6 +7,7 @@ using api.Dtos;
 using api.Models;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace api.Controllers
 {
@@ -22,17 +23,17 @@ namespace api.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetScores()
+        public async Task<IActionResult> GetScores()
         {
-            var scores = _context.Scores.ToList();
+            var scores = await _context.Scores.ToListAsync();
             var response = scores.Adapt<List<Dtos.Score.ScoreDto>>();//Mapster for automapping
             return Ok(response);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            var score = _context.Scores.Find(id);
+            var score = await _context.Scores.FindAsync(id);
             if (score == null)
             {
                 return NotFound();
@@ -54,39 +55,39 @@ namespace api.Controllers
 
         */
         [HttpPost]
-        public IActionResult CreateScore([FromBody] Dtos.Score.CreateScoreRequestDto createScoreRequestDto)
+        public async Task<IActionResult> CreateScore([FromBody] Dtos.Score.CreateScoreRequestDto createScoreRequestDto)
         {
             var score = createScoreRequestDto.Adapt<Models.Score>();
             _context.Scores.Add(score);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             var response = score.Adapt<Dtos.Score.ScoreDto>();
             return CreatedAtAction(nameof(GetById), new { id = score.Id }, response);
         }
 
-        [HttpPut("{id}")] 
-        public IActionResult UpdateScore([FromRoute] int id, [FromBody] Dtos.Score.UpdateScoreRequestDto updateScoreRequestDto)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateScore([FromRoute] int id, [FromBody] Dtos.Score.UpdateScoreRequestDto updateScoreRequestDto)
         {
-            var score = _context.Scores.Find(id);
+            var score = await _context.Scores.FindAsync(id);
             if (score == null)
             {
                 return NotFound();
             }
             score.Value = updateScoreRequestDto.Value;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             var response = score.Adapt<Dtos.Score.ScoreDto>();
             return Ok(response);
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteScore([FromRoute] int id)
+        public async Task<IActionResult> DeleteScore([FromRoute] int id)
         {
-            var score = _context.Scores.Find(id);
+            var score = await _context.Scores.FindAsync(id);
             if (score == null)
             {
                 return NotFound();
             }
             _context.Scores.Remove(score);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return NoContent();
         }
     }
