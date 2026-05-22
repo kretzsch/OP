@@ -21,6 +21,9 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore OP2.sln
 
+      - name: Check formatting
+        run: dotnet format OP2.sln --verify-no-changes --verbosity diagnostic
+      
       - name: Build solution
         run: dotnet build OP2.sln --configuration Release --no-restore
 
