@@ -36,7 +36,7 @@ namespace api.Repository
             }
             _context.Scores.Remove(scoreModel); //Remove is not async... idk why tbqh fam
             await _context.SaveChangesAsync();
-            return  scoreModel;
+            return scoreModel;
         }
 
         public async Task<List<Score>> GetAllAsync()
@@ -46,7 +46,7 @@ namespace api.Repository
 
         public async Task<Score?> GetByIdAsync(int id)
         {
-           var scoreModel = await _context.Scores.FindAsync(id);
+            var scoreModel = await _context.Scores.FindAsync(id);
             return scoreModel;
         }
 
