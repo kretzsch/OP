@@ -10,6 +10,5 @@ namespace api.Dtos.Score
         public int Id { get; set; }
         public int PlayerId { get; set; }
         public int Value { get; set; }
-
     }
 }
