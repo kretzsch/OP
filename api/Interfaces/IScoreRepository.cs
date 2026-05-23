@@ -8,7 +8,7 @@ namespace api.Interfaces
     public interface IScoreRepository
     {
         Task<List<Models.Score>> GetAllAsync();
-        
-       // Task<Models.Score> GetAsync(int id);
+
+        // Task<Models.Score> GetAsync(int id);
     }
 }
