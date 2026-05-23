@@ -8,6 +8,7 @@ using api.Models;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using api.Interfaces;
 
 namespace api.Controllers
 {
@@ -16,16 +17,18 @@ namespace api.Controllers
     public class ScoreController : ControllerBase
     {
         private readonly ApplicationDBContext _context;
+        private readonly IScoreRepository _scoreRepository;
 
-        public ScoreController(ApplicationDBContext context)
+        public ScoreController(ApplicationDBContext context, IScoreRepository scoreRepository)
         {
             _context = context;
+            _scoreRepository = scoreRepository;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetScores()
         {
-            var scores = await _context.Scores.ToListAsync();
+            var scores = await _scoreRepository.GetAllAsync();
             var response = scores.Adapt<List<Dtos.Score.ScoreDto>>();//Mapster for automapping
             return Ok(response);
         }
@@ -67,7 +70,7 @@ namespace api.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateScore([FromRoute] int id, [FromBody] Dtos.Score.UpdateScoreRequestDto updateScoreRequestDto)
         {
-            var score = await _context.Scores.FindAsync(id);
+            var score = await _context.Scores.FindAsync(id); //abstract this
             if (score == null)
             {
                 return NotFound();
@@ -86,7 +89,7 @@ namespace api.Controllers
             {
                 return NotFound();
             }
-            _context.Scores.Remove(score);
+            _context.Scores.Remove(score); //Remove is not async... idk why tbqh fam
             await _context.SaveChangesAsync();
             return NoContent();
         }

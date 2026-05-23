@@ -21,3 +21,9 @@ JWT
 SQL Server
 ### Containerization: 
 Docker
+
+
+
+### architecture
+
+Repository pattern (chosen for cleaner controllers, might switch to [Clean Architecture](https://github.com/jasontaylordev/CleanArchitecture) later on, still weighing the pros and cons )
