@@ -32,7 +32,7 @@ namespace api.Controllers
             {
                 return NotFound();
             }
-            var response = score.Adapt<Dtos.Score.ScoreDto>(); //Maspster for automapping 
+            var response = score.Adapt<Dtos.Score.ScoreDto>(); //Mapster for automapping 
             return Ok(response);
         }
 
