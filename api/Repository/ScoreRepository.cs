@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using api.Data;
 using api.Dtos.Score;
 using api.Interfaces;
 using api.Models;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 namespace api.Repository
@@ -50,14 +45,15 @@ namespace api.Repository
             return scoreModel;
         }
 
-        public async Task<Score?> UpdateAsync(int id, UpdateScoreRequestDto scoreDto)
+        //we dont need the whole dto here, just the score value, so we can just pass that instead of the whole dto.
+        public async Task<Score?> UpdateAsync(int id, int scoreValue)
         {
             var scoreModel = await _context.Scores.FindAsync(id);
             if (scoreModel == null)
             {
                 return null;
             }
-            scoreModel.Value = scoreDto.Value;
+            scoreModel.Value = scoreValue;
             await _context.SaveChangesAsync();
             return scoreModel;
         }

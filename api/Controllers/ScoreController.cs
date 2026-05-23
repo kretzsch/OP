@@ -1,13 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using api.Data;
-using api.Dtos;
-using api.Models;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using api.Interfaces;
 
 namespace api.Controllers
@@ -16,12 +9,10 @@ namespace api.Controllers
     [Route("api/Score")]
     public class ScoreController : ControllerBase
     {
-        private readonly ApplicationDBContext _context;
         private readonly IScoreRepository _scoreRepository;
 
-        public ScoreController(ApplicationDBContext context, IScoreRepository scoreRepository)
+        public ScoreController(IScoreRepository scoreRepository)
         {
-            _context = context;
             _scoreRepository = scoreRepository;
         }
 
@@ -68,7 +59,7 @@ namespace api.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateScore([FromRoute] int id, [FromBody] Dtos.Score.UpdateScoreRequestDto updateScoreRequestDto)
         {
-            var score = await _scoreRepository.UpdateAsync(id, updateScoreRequestDto);
+            var score = await _scoreRepository.UpdateAsync(id, updateScoreRequestDto.Value);
             if (score == null)
             {
                 return NotFound();

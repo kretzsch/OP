@@ -12,7 +12,7 @@ namespace api.Interfaces
 
         Task<Models.Score?> GetByIdAsync(int id); // ?  because it can return null if not found
         Task<Models.Score> CreateAsync(Models.Score score);
-        Task<Models.Score?> UpdateAsync(int id, UpdateScoreRequestDto scoreDto);
+        Task<Models.Score?> UpdateAsync(int id, int scoreValue);
         Task<Models.Score?> DeleteAsync(int id);
     }
 }
