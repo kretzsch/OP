@@ -16,6 +16,7 @@ namespace api.Controllers
     [Route("api/Score")]
     public class ScoreController : ControllerBase
     {
+        //small code change for github actions setup - we need to run it for a pr once so it shows up for required checks in the future.
         private readonly ApplicationDBContext _context;
         private readonly IScoreRepository _scoreRepository;
 
