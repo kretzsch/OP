@@ -16,12 +16,12 @@ namespace api.Controllers
         }
 
         [HttpGet]
-        
+
         public async Task<IActionResult> GetComments()
         {
             var comments = await _commentRepository.GetAllCommentsAsync();
             var response = comments.Adapt<List<Dtos.Comment.CommentDto>>(); //Mapster for automapping 
             return Ok(response);
-        }   
+        }
     }
 }
