@@ -1,13 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using api.Data;
-using api.Dtos;
-using api.Models;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using api.Interfaces;
 
 namespace api.Controllers
@@ -16,13 +9,10 @@ namespace api.Controllers
     [Route("api/Score")]
     public class ScoreController : ControllerBase
     {
-        //small code change for github actions setup - we need to run it for a pr once so it shows up for required checks in the future.
-        private readonly ApplicationDBContext _context;
         private readonly IScoreRepository _scoreRepository;
 
-        public ScoreController(ApplicationDBContext context, IScoreRepository scoreRepository)
+        public ScoreController(IScoreRepository scoreRepository)
         {
-            _context = context;
             _scoreRepository = scoreRepository;
         }
 
@@ -37,12 +27,12 @@ namespace api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var score = await _context.Scores.FindAsync(id);
+            var score = await _scoreRepository.GetByIdAsync(id);
             if (score == null)
             {
                 return NotFound();
             }
-            var response = score.Adapt<Dtos.Score.ScoreDto>(); //Maspster for automapping
+            var response = score.Adapt<Dtos.Score.ScoreDto>(); //Mapster for automapping 
             return Ok(response);
         }
 
@@ -61,9 +51,7 @@ namespace api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateScore([FromBody] Dtos.Score.CreateScoreRequestDto createScoreRequestDto)
         {
-            var score = createScoreRequestDto.Adapt<Models.Score>();
-            _context.Scores.Add(score);
-            await _context.SaveChangesAsync();
+            var score = await _scoreRepository.CreateAsync(createScoreRequestDto.Adapt<Models.Score>()); //Mapster for automapping
             var response = score.Adapt<Dtos.Score.ScoreDto>();
             return CreatedAtAction(nameof(GetById), new { id = score.Id }, response);
         }
@@ -71,13 +59,11 @@ namespace api.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateScore([FromRoute] int id, [FromBody] Dtos.Score.UpdateScoreRequestDto updateScoreRequestDto)
         {
-            var score = await _context.Scores.FindAsync(id); //abstract this
+            var score = await _scoreRepository.UpdateAsync(id, updateScoreRequestDto.Value);
             if (score == null)
             {
                 return NotFound();
             }
-            score.Value = updateScoreRequestDto.Value;
-            await _context.SaveChangesAsync();
             var response = score.Adapt<Dtos.Score.ScoreDto>();
             return Ok(response);
         }
@@ -85,13 +71,11 @@ namespace api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteScore([FromRoute] int id)
         {
-            var score = await _context.Scores.FindAsync(id);
+            var score = await _scoreRepository.DeleteAsync(id);
             if (score == null)
             {
                 return NotFound();
             }
-            _context.Scores.Remove(score); //Remove is not async... idk why tbqh fam
-            await _context.SaveChangesAsync();
             return NoContent();
         }
     }

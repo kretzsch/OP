@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using api.Dtos.Score;
 
 namespace api.Interfaces
 {
@@ -9,6 +10,9 @@ namespace api.Interfaces
     {
         Task<List<Models.Score>> GetAllAsync();
 
-        // Task<Models.Score> GetAsync(int id);
+        Task<Models.Score?> GetByIdAsync(int id); // ?  because it can return null if not found
+        Task<Models.Score> CreateAsync(Models.Score score);
+        Task<Models.Score?> UpdateAsync(int id, int scoreValue);
+        Task<Models.Score?> DeleteAsync(int id);
     }
 }
