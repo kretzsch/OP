@@ -11,5 +11,6 @@ namespace api.Models
         public int PlayerId { get; set; }
         public int Value { get; set; }
         public DateTime DateTime { get; set; }
+        public List<Comment> Comments { get; set; }
     }
 }

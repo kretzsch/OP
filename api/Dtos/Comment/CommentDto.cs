@@ -11,6 +11,6 @@ namespace api.Dtos.Comment
         public string Title { get; set; } = string.Empty;
         public string Content { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; } = DateTime.Now;
-        public int PlayerId { get; set; }
+        public int? PlayerId { get; set; }
     }
 }

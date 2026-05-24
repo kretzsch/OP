@@ -23,5 +23,17 @@ namespace api.Controllers
             var response = comments.Adapt<List<Dtos.Comment.CommentDto>>(); //Mapster for automapping 
             return Ok(response);
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById([FromRoute] int id)
+        {
+            var comment = await _commentRepository.GetCommentByIdAsync(id);
+            if (comment == null)
+            {
+                return NotFound();
+            }
+            var response = comment.Adapt<Dtos.Comment.CommentDto>();
+            return Ok(response);
+        }
     }
 }

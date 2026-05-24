@@ -1,5 +1,4 @@
 using api.Data;
-using api.Dtos.Score;
 using api.Interfaces;
 using api.Models;
 using Microsoft.EntityFrameworkCore;
@@ -36,12 +35,12 @@ namespace api.Repository
 
         public async Task<List<Score>> GetAllAsync()
         {
-            return await _context.Scores.ToListAsync();
+            return await _context.Scores.Include(s => s.Comments).ToListAsync();
         }
 
         public async Task<Score?> GetByIdAsync(int id)
         {
-            var scoreModel = await _context.Scores.FindAsync(id);
+            var scoreModel = await _context.Scores.Include(s => s.Comments).FirstOrDefaultAsync(s => s.Id == id); //Find vinnie nie leuk, look into why 
             return scoreModel;
         }
 

@@ -14,5 +14,9 @@ namespace api.Models
         public int? PlayerId { get; set; }
         //navigation property
         public Player? Player { get; set; }
+
+        public int? ScoreId { get; set; }
+        //navigation property  
+        public Score? Score { get; set; }
     }
 }
