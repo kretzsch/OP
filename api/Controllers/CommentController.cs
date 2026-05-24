@@ -41,9 +41,9 @@ namespace api.Controllers
         [HttpPost("{scoreId}")]
         public async Task<IActionResult> Create([FromRoute] int scoreId, [FromBody] Dtos.Comment.CommentCreateDto commentCreateDto)
         {
-            if (!await _scoreRepository.scoreExistsAsync(scoreId))
+            if (!await _scoreRepository.ScoreExistsAsync(scoreId))
             {
-                return BadRequest("Score doesnt exist");
+                return NotFound("Score doesnt exist");
             }
             //think about passing scoreid or keep it here. if we pass it and the scope changes for comments we need to change it  
             var comment = await _commentRepository.CreateAsync(commentCreateDto.Adapt<Models.Comment>(), scoreId); //Mapster for automapping

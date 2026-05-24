@@ -44,7 +44,7 @@ namespace api.Repository
             return scoreModel;
         }
 
-        public Task<bool> scoreExistsAsync(int id)
+        public Task<bool> ScoreExistsAsync(int id)
         {
             return _context.Scores.AnyAsync(s => s.Id == id);
         }
