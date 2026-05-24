@@ -31,7 +31,6 @@ namespace api.Repository
             await _context.SaveChangesAsync();
             return comment;
         }
-
         public async Task<Comment?> UpdateAsync(Comment comment, int id)
         {
             var commentModel = await _context.Comments.FindAsync(id);
