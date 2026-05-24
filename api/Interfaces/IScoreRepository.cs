@@ -14,6 +14,6 @@ namespace api.Interfaces
         Task<Models.Score> CreateAsync(Models.Score score);
         Task<Models.Score?> UpdateAsync(int id, int scoreValue);
         Task<Models.Score?> DeleteAsync(int id);
-        Task<bool> scoreExistsAsync(int id);
+        Task<bool> ScoreExistsAsync(int id);
     }
 }
