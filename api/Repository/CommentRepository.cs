@@ -24,8 +24,9 @@ namespace api.Repository
             return commentModel;
         }
 
-        public async Task<Comment> CreateAsync(Comment comment)
+        public async Task<Comment> CreateAsync(Comment comment, int scoreId)
         {
+            comment.ScoreId = scoreId;
             _context.Comments.Add(comment);
             await _context.SaveChangesAsync();
             return comment;

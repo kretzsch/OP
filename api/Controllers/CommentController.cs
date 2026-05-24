@@ -41,7 +41,12 @@ namespace api.Controllers
         [HttpPost("{scoreId}")]
         public async Task<IActionResult> Create([FromRoute] int scoreId, [FromBody] Dtos.Comment.CommentCreateDto commentCreateDto)
         {
-            var comment = await _commentRepository.CreateAsync(commentCreateDto.Adapt<Models.Comment>()); //Mapster for automapping
+            if (!await _scoreRepository.scoreExistsAsync(scoreId))
+            {
+                return BadRequest("Score doesnt exist");
+            }
+            
+            var comment = await _commentRepository.CreateAsync(commentCreateDto.Adapt<Models.Comment>(), scoreId); //Mapster for automapping
             var response = comment.Adapt<Dtos.Comment.CommentDto>();
             return CreatedAtAction(nameof(GetById), new { id = response.Id }, response);
         }

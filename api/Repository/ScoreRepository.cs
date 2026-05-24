@@ -44,6 +44,11 @@ namespace api.Repository
             return scoreModel;
         }
 
+        public Task<bool> scoreExistsAsync(int id)
+        {
+            return _context.Scores.AnyAsync(s => s.Id == id);
+        }
+
         //we dont need the whole dto here, just the score value, so we can just pass that instead of the whole dto.
         public async Task<Score?> UpdateAsync(int id, int scoreValue)
         {
