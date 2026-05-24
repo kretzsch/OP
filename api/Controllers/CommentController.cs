@@ -45,10 +45,33 @@ namespace api.Controllers
             {
                 return BadRequest("Score doesnt exist");
             }
-
+            //think about passing scoreid or keep it here. if we pass it and the scope changes for comments we need to change it  
             var comment = await _commentRepository.CreateAsync(commentCreateDto.Adapt<Models.Comment>(), scoreId); //Mapster for automapping
             var response = comment.Adapt<Dtos.Comment.CommentDto>();
             return CreatedAtAction(nameof(GetById), new { id = response.Id }, response);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] Dtos.Comment.CommentUpdateDto commentUpdateDto)
+        {
+            var comment = await _commentRepository.UpdateAsync(commentUpdateDto.Adapt<Models.Comment>(), id);
+            if (comment == null)
+            {
+                return NotFound();
+            }
+            var response = comment.Adapt<Dtos.Comment.CommentDto>();
+            return Ok(response);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
+        {
+            var comment = await _commentRepository.DeleteAsync(id);
+            if (comment == null)
+            {
+                return NotFound();
+            }
+            return NoContent();
         }
     }
 }
