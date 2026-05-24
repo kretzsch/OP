@@ -10,9 +10,11 @@ namespace api.Controllers
     public class CommentController : ControllerBase
     {
         private readonly ICommentRepository _commentRepository;
-        public CommentController(ICommentRepository commentRepository)
+        private readonly IScoreRepository _scoreRepository;
+        public CommentController(ICommentRepository commentRepository, IScoreRepository scoreRepository)
         {
             _commentRepository = commentRepository;
+            _scoreRepository = scoreRepository;
         }
 
         [HttpGet]
@@ -34,6 +36,14 @@ namespace api.Controllers
             }
             var response = comment.Adapt<Dtos.Comment.CommentDto>();
             return Ok(response);
+        }
+
+        [HttpPost("{scoreId}")]
+        public async Task<IActionResult> Create([FromRoute] int scoreId, [FromBody] Dtos.Comment.CommentCreateDto commentCreateDto)
+        {
+            var comment = await _commentRepository.CreateAsync(commentCreateDto.Adapt<Models.Comment>()); //Mapster for automapping
+            var response = comment.Adapt<Dtos.Comment.CommentDto>();
+            return CreatedAtAction(nameof(GetById), new { id = response.Id }, response);
         }
     }
 }
