@@ -38,6 +38,7 @@ namespace api.Controllers
 
 
         /* 
+        
         for now you cant log in, so we just pass the playerid for now. 
         but when we have login it needs to be 
 
