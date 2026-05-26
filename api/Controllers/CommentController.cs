@@ -26,7 +26,7 @@ namespace api.Controllers
             return Ok(response);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
             var comment = await _commentRepository.GetCommentByIdAsync(id);
@@ -38,7 +38,7 @@ namespace api.Controllers
             return Ok(response);
         }
 
-        [HttpPost("{scoreId}")]
+        [HttpPost("{scoreId:int}")]
         public async Task<IActionResult> Create([FromRoute] int scoreId, [FromBody] Dtos.Comment.CommentCreateDto commentCreateDto)
         {
             if (!await _scoreRepository.ScoreExistsAsync(scoreId))
@@ -51,7 +51,7 @@ namespace api.Controllers
             return CreatedAtAction(nameof(GetById), new { id = response.Id }, response);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id:int}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] Dtos.Comment.CommentUpdateDto commentUpdateDto)
         {
             var comment = await _commentRepository.UpdateAsync(commentUpdateDto.Adapt<Models.Comment>(), id);
@@ -63,7 +63,7 @@ namespace api.Controllers
             return Ok(response);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
             var comment = await _commentRepository.DeleteAsync(id);

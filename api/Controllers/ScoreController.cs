@@ -24,7 +24,7 @@ namespace api.Controllers
             return Ok(response);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById(int id)
         {
             var score = await _scoreRepository.GetByIdAsync(id);
@@ -56,7 +56,7 @@ namespace api.Controllers
             return CreatedAtAction(nameof(GetById), new { id = score.Id }, response);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateScore([FromRoute] int id, [FromBody] Dtos.Score.UpdateScoreRequestDto updateScoreRequestDto)
         {
             var score = await _scoreRepository.UpdateAsync(id, updateScoreRequestDto.Value);
@@ -68,7 +68,7 @@ namespace api.Controllers
             return Ok(response);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteScore([FromRoute] int id)
         {
             var score = await _scoreRepository.DeleteAsync(id);
