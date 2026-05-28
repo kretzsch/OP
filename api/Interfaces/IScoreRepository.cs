@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using api.Dtos.Score;
+using api.Queries;
 
 namespace api.Interfaces
 {
     public interface IScoreRepository
     {
-        Task<List<Models.Score>> GetAllAsync();
+        Task<List<Models.Score>> GetAllAsync(ScoreQueryObject scoreQueryObject);
 
         Task<Models.Score?> GetByIdAsync(int id); // ?  because it can return null if not found
         Task<Models.Score> CreateAsync(Models.Score score);
