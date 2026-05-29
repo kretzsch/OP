@@ -42,6 +42,16 @@ namespace api.Repository
             {
                 scoresQuery = scoresQuery.Where(s => s.PlayerId == scoreQueryObject.PlayerId.Value);
             }
+            if (scoreQueryObject.SortBy != null)
+            //if (!string.IsNullOrWhiteSpace(scoreQueryObject.SortBy))
+            {
+                if (scoreQueryObject.SortBy.Equals("Value", StringComparison.OrdinalIgnoreCase))
+                {
+                    scoresQuery = scoreQueryObject.IsDescending
+                        ? scoresQuery.OrderByDescending(s => s.Value)
+                        : scoresQuery.OrderBy(s => s.Value);
+                }
+            }
             return await scoresQuery.ToListAsync();
         }
 
