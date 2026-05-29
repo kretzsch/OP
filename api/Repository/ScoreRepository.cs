@@ -52,6 +52,9 @@ namespace api.Repository
                         : scoresQuery.OrderBy(s => s.Value);
                 }
             }
+
+            var skipNumber = (scoreQueryObject.PageNumber - 1) * scoreQueryObject.PageSize;
+            scoresQuery = scoresQuery.Skip(skipNumber).Take(scoreQueryObject.PageSize);
             return await scoresQuery.ToListAsync();
         }
 
