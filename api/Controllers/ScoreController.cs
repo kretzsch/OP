@@ -2,6 +2,7 @@ using api.Data;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using api.Interfaces;
+using api.Queries;
 
 namespace api.Controllers
 {
@@ -17,16 +18,16 @@ namespace api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetScores()
+        public async Task<IActionResult> GetScores([FromQuery] ScoreQueryObject scoreQueryObject)
         {
-            var scores = await _scoreRepository.GetAllAsync();
+            var scores = await _scoreRepository.GetAllAsync(scoreQueryObject);
             var response = scores.Adapt<List<Dtos.Score.ScoreDto>>();//Mapster for automapping
             return Ok(response);
         }
 
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById(int id)
-        {
+        { //Modelstate not needed 
             var score = await _scoreRepository.GetByIdAsync(id);
             if (score == null)
             {
@@ -59,7 +60,7 @@ namespace api.Controllers
 
         [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateScore([FromRoute] int id, [FromBody] Dtos.Score.UpdateScoreRequestDto updateScoreRequestDto)
-        {
+        { //modelstate not needed because of the [ApiController] attribute, it automatically checks the model state and returns a 400 if it's invalid
             var score = await _scoreRepository.UpdateAsync(id, updateScoreRequestDto.Value);
             if (score == null)
             {
