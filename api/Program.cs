@@ -13,7 +13,8 @@ builder.Services.AddSwaggerGen();
 
 //Identity
 builder.Services.AddAuthorization();
-builder.Services.AddAuthentication().AddCookie(IdentityConstants.ApplicationScheme);
+builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
+.AddCookie(IdentityConstants.ApplicationScheme);
 builder.Services.AddIdentityCore<User>()
     .AddEntityFrameworkStores<ApplicationDBContext>()
     .AddApiEndpoints();
