@@ -2,6 +2,8 @@ using api.Data;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using api.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace api.Controllers
 {
@@ -38,9 +40,11 @@ namespace api.Controllers
             return Ok(response);
         }
 
+        [Authorize]
         [HttpPost("{scoreId:int}")]
         public async Task<IActionResult> Create([FromRoute] int scoreId, [FromBody] Dtos.Comment.CommentCreateDto commentCreateDto)
         {
+
             if (!await _scoreRepository.ScoreExistsAsync(scoreId))
             {
                 return NotFound("Score doesnt exist");
@@ -51,6 +55,7 @@ namespace api.Controllers
             return CreatedAtAction(nameof(GetById), new { id = response.Id }, response);
         }
 
+        [Authorize]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] Dtos.Comment.CommentUpdateDto commentUpdateDto)
         {
@@ -63,6 +68,7 @@ namespace api.Controllers
             return Ok(response);
         }
 
+        [Authorize]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
