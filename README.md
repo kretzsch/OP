@@ -16,7 +16,7 @@ ASP.NET Core Web API
 ### Frontend: 
 Blazor
 ### Authentication: 
-JWT
+Cookies
 ### Database: 
 SQL Server
 ### Containerization: 
