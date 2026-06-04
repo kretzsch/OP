@@ -23,7 +23,7 @@ builder.Services.AddIdentityCore<User>()
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<IScoreRepository, ScoreRepository>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();

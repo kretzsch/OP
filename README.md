@@ -16,13 +16,14 @@ ASP.NET Core Web API
 ### Frontend: 
 Blazor
 ### Authentication: 
-JWT
+Cookies (Bearer tokens? perhaps later)
 ### Database: 
-SQL Server
+PostgreSQL
 ### Containerization: 
 Docker
 
-
+### Cloud
+(Azure? soon TM)
 
 ### architecture
 
